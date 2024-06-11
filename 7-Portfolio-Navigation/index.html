@@ -68,48 +68,92 @@
 
     <script>
 
+    // SOLUTION 2 (Desine course)
+
+    // using gsap.utils.toArray instead of querySelectorAll
+    const links = gsap.utils.toArray('li a')
+
+    // creating the timeline inside forEach loop
+    links.forEach(link => {
+        let linkTL = gsap.timeline({defaults: { ease: "power4.inOut", duration: .6}})
+
+        // using link.querySelector instead of document.querySelector
+        const headingStart = link.querySelector(".primary")
+        const headingEnd = link.querySelector(".secondary")
+        const date = link.querySelector(".date")
+        const line = link.querySelector(".line")
+
+        linkTL
+            .to(headingStart, {
+                yPercent: -100
+            })
+            .to(headingEnd, {
+                yPercent: -50
+            }, "<")
+            .to(line, {
+                scaleX: 1
+            }, "<")
+            .to(date, {
+                y: 0
+            }, "<")
+
+        linkTL.pause()  
+        
+        link.addEventListener('mouseenter', () => {
+            linkTL.play()
+        })
+
+        link.addEventListener('mouseleave', () => {
+            linkTL.reverse()
+        })
+        
+    })
+
+
+
+
     // SOLUTION 1
-    const titlesCont = document.querySelectorAll("li")
-    const dates = document.querySelectorAll(".date")
-    const lines = document.querySelectorAll(".line")
-    const firstTitle = document.querySelectorAll(".primary")
-    const secondTitle = document.querySelectorAll(".secondary")
-    let titleStatus = false
+    // const titlesCont = document.querySelectorAll("li")
+    // const dates = document.querySelectorAll(".date")
+    // const lines = document.querySelectorAll(".line")
+    // const firstTitle = document.querySelectorAll(".primary")
+    // const secondTitle = document.querySelectorAll(".secondary")
+    // let titleStatus = false
 
     // looping over aech title element before adding them to the timeline
-    titlesCont.forEach((title, index) => {        
-        let liTL = gsap.timeline({
-          defaults: {duration: .2, ease: 'power4.inOut'}
-        })
+    // titlesCont.forEach((title, index) => {        
+    //     let liTL = gsap.timeline({
+    //       defaults: {duration: .2, ease: 'power4.inOut'}
+    //     })
 
-        liTL.paused(true)
+    //     liTL.paused(true)
 
-        // adding the animation to each date in the loop using index
-        liTL
-            .to(dates[index], {
-                yPercent: -170
-            })
-            .to(lines[index], {
-                scaleX: 1
-            })
-            .to(firstTitle[index], {
-                yPercent: -100
-            }, "-=.3")
-            .to(secondTitle[index], {
-                yPercent: -50
-            }, "-=.2")
+    //     adding the animation to each date in the loop using index
+    //     liTL
+    //         .to(dates[index], {
+    //             yPercent: -170
+    //         })
+    //         .to(lines[index], {
+    //             scaleX: 1
+    //         })
+    //         .to(firstTitle[index], {
+    //             yPercent: -100
+    //         }, "-=.3")
+    //         .to(secondTitle[index], {
+    //             yPercent: -50
+    //         }, "-=.2")
 
-        title.addEventListener('mouseenter', () => {
-            liTL.play()
-            titleStatus = true
-        })
+    //     title.addEventListener('mouseenter', () => {
+    //         liTL.play()
+    //         titleStatus = true
+    //     })
 
-        title.addEventListener('mouseleave', () => {
-            liTL.reverse()
-            titleStatus = false
-        })
+    //     title.addEventListener('mouseleave', () => {
+    //         liTL.reverse()
+    //         titleStatus = false
+    //     })
 
-    });
+    // });
 
 
     </script>
