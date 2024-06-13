@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scroll trigger</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@300;400;900&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+    <section>
+      <h1 class="headline-section1">section 1</h1>
+    </section>
+
+    <section class="middle">
+        <div class="mask h2"><h2>sophen</h2></div>
+
+        <div class="card card1">
+            <div class="mask"><h3>advanced<br>interactions</h3></div>
+            <div class="mask"><p>Equipped with the latest technology to create the most advanced interactions.</p></div>
+            <div class="box"></div>
+        </div>
+
+        <div class="card card2">
+            <div class="mask"><h3>extended<br>easing</h3></div>
+            <div class="mask"><p>Utilize our expert Flo Protocol to extend easing capabilities.</p></div>
+            <div class="box"></div>
+        </div>
+
+    </section>
+
+    <section></section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" integrity="sha512-16esztaSRplJROstbIIdwX3N97V1+pZvV33ABoG1H2OyTttBxEGkTsoIVsiP1iaTtM8b3+hu2kB6pQ4Clr5yug==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" integrity="sha512-Ic9xkERjyZ1xgJ5svx3y0u3xrvfT/uPkV99LBwe68xjy/mGtO+4eURHZBW2xW4SZbFrF1Tf090XqB+EVgXnVjw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+
+    // initialize scroll trigger inside the timeline
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: '.middle', // section triggered for scroll animation
+        start: 'top 10%', // when the anim starts: 'top' (the first value) - in relation to the section defined earlier in the trigger property (so the top of the ".middle" section; 'middle' (the second value) - scroll position in the view port (seen better with markers)
+        // start: '20% middle'
+        end: 'bottom+=20% center', 
+        // end: 'end 70%',
+        // end: 'bottom+=20% center', // 20% pass the bottom of the trigger
+        // markers: true,
+      }
+    })
+
+    tl
+      .from(['h2', 'h3', 'p'], {
+        yPercent: 140,
+        duration: 1,
+        stagger: .1
+      })
+      .from('.box', {
+        scaleY: 0,
+        ease: "elastic.out(1, 0.5)",
+        duration: 2,
+        stagger: .2
+      }, "-=.3")
+
+    </script>
+</body>
+</html>
