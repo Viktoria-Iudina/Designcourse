@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Challenge</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300&family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+    <section class="intro">
+        <h1>scroll down</h1>
+    </section>
+
+    <section class="gallery">
+        <ul>
+            <li>
+                <a href="#">
+                    <img src="art1.jpg" alt="Syntholtic">
+
+                    <div class="border"></div>
+
+                    <div class="info">
+                        <span>01</span>
+                        <p>Syntholtic</p>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <img src="art2.jpg" alt="Bumblebee">
+
+                    <div class="border"></div>
+
+                    <div class="info">
+                        <span>02</span>
+                        <p>Bumblebee</p>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <img src="art3.jpg" alt="Smorg">
+
+                    <div class="border"></div>
+
+                    <div class="info">
+                        <span>03</span>
+                        <p>Smorg</p>
+                    </div>
+                </a>
+            </li>
+            <li>
+                <a href="#">
+                    <img src="art4.jpg" alt="Violeta">
+
+                    <div class="border"></div>
+
+                    <div class="info">
+                        <span>04</span>
+                        <p>Violeta</p>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </section>
+    <section class="intro">
+        <h1>scroll up</h1>
+    </section>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" integrity="sha512-16esztaSRplJROstbIIdwX3N97V1+pZvV33ABoG1H2OyTttBxEGkTsoIVsiP1iaTtM8b3+hu2kB6pQ4Clr5yug==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" integrity="sha512-Ic9xkERjyZ1xgJ5svx3y0u3xrvfT/uPkV99LBwe68xjy/mGtO+4eURHZBW2xW4SZbFrF1Tf090XqB+EVgXnVjw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js"></script>
+    <script>
+
+        const cardImages = gsap.utils.toArray('ul li a img');
+        const border = gsap.utils.toArray('.border');
+        const cardNumber = gsap.utils.toArray('.info span');
+        const cardTitle = gsap.utils.toArray('.info p');
+
+        // SCROLL TL
+        let cardTL = gsap.timeline({
+            scrollTrigger: {
+                trigger: '.gallery',
+                start: 'top center',
+                end: 'bottom center',
+                toggleActions: 'play reverse restart reverse'
+            },
+            defaults: {
+                duration: 1,
+                ease: "power4.in"
+            }
+        })
+
+        cardTL
+            .from(cardImages, {
+                yPercent: -30,
+                clipPath: "polygon(0% 100%, 100% 83%, 100% 100%, 0% 100%)",
+                ease:  "expo.in",
+                stagger: 0.2
+            })
+            .from(border, {
+                width: 0
+            })
+            .from(cardNumber, {
+                yPercent: 50,
+                opacity: 0
+            }, "-=.5")
+            .from(cardTitle, {
+                yPercent: 50,
+                opacity: 0
+            }, "-=.5")
+
+
+        // HOVER TL    
+         cardImages.forEach(cardImage => {
+            // Create a new timeline for each card image
+            let cardHoverTL = gsap.timeline({ defaults: {duration: 0.7, ease: "power4.in"} })
+
+            cardHoverTL
+                .to(cardImage, {
+                    clipPath: "polygon(0% 15%, 100% 0%, 100% 85%, 0% 100%)"
+                })
+
+            cardHoverTL.pause()  
+            
+            cardImage.addEventListener('mouseenter', () => {
+                cardHoverTL.play()
+            })
+
+            cardImage.addEventListener('mouseleave', () => {
+                cardHoverTL.reverse()
+            })    
+        })
+
+
+
+        // smooth scroll
+        const lenis = new Lenis()
+
+        function raf(time) {
+        lenis.raf(time)
+        requestAnimationFrame(raf)
+        }
+
+        requestAnimationFrame(raf)
+
+
+
+
+                
+        function randomType(element, characters, duration, sequential = false) {
+            let originalText = element.innerText;
+            let textArray = originalText.split('');
+            let charactersArray = characters.split('');
+            let startTime = new Date().getTime();
+            let interval;
+
+            if (sequential) {
+                let currentIndex = 0;
+                interval = setInterval(function() {
+                    textArray[currentIndex] = charactersArray[Math.floor(Math.random() * charactersArray.length)];
+                    element.innerText = textArray.join('');
+                    currentIndex++;
+                    if (currentIndex === textArray.length) {
+                        currentIndex = 0;
+                    }
+                    if (new Date().getTime() - startTime >= duration) {
+                        clearInterval(interval);
+                        element.innerText = originalText;
+                    }
+                }, 20);
+            } else {
+                interval = setInterval(function() {
+                    for (let i = 0; i < textArray.length; i++) {
+                        textArray[i] = charactersArray[Math.floor(Math.random() * charactersArray.length)];
+                    }
+                    element.innerText = textArray.join('');
+                    if (new Date().getTime() - startTime >= duration) {
+                        clearInterval(interval);
+                        element.innerText = originalText;
+                    }
+                }, 50);
+            }
+        }
+
+        // randomType(domElement, '01', 500, true);
+
+        cardTitle.forEach(title => {
+            title.addEventListener('mouseenter', () => {
+                randomType(title, 'H48Po5m09ueJI86Rdp5Rd36', 500, true);
+            })
+        });
+
+        
+
+    </script>
+</body>
+</html>
