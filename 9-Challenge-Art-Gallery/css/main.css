@@ -51,7 +51,7 @@ a .border {
 a .info {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  /* align-items: center; */
   overflow: hidden;
 }
 a .info p {

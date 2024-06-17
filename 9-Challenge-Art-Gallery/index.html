@@ -75,65 +75,115 @@
     <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js"></script>
     <script>
 
-        const cardImages = gsap.utils.toArray('ul li a img');
-        const border = gsap.utils.toArray('.border');
-        const cardNumber = gsap.utils.toArray('.info span');
-        const cardTitle = gsap.utils.toArray('.info p');
+        // SOLUTION 1
+        // const cardImages = gsap.utils.toArray('ul li a img');
+        // const border = gsap.utils.toArray('.border');
+        // const cardNumber = gsap.utils.toArray('.info span');
+        // const cardTitle = gsap.utils.toArray('.info p');
 
-        // SCROLL TL
-        let cardTL = gsap.timeline({
+        // // SCROLL TL
+        // let cardTL = gsap.timeline({
+        //     scrollTrigger: {
+        //         trigger: '.gallery',
+        //         start: 'top center',
+        //         end: 'bottom center',
+        //         toggleActions: 'play reverse restart reverse'
+        //     },
+        //     defaults: {
+        //         duration: 1,
+        //         ease: "power4.in"
+        //     }
+        // })
+
+        // cardTL
+        //     .from(cardImages, {
+        //         yPercent: -30,
+        //         clipPath: "polygon(0% 100%, 100% 83%, 100% 100%, 0% 100%)",
+        //         ease:  "expo.in",
+        //         stagger: 0.2
+        //     })
+        //     .from(border, {
+        //         width: 0
+        //     })
+        //     .from(cardNumber, {
+        //         yPercent: 50,
+        //         opacity: 0
+        //     }, "-=.5")
+        //     .from(cardTitle, {
+        //         yPercent: 50,
+        //         opacity: 0
+        //     }, "-=.5")
+
+
+        // // HOVER TL    
+        //  cardImages.forEach(cardImage => {
+        //     // Create a new timeline for each card image
+        //     let cardHoverTL = gsap.timeline({ defaults: {duration: 0.7, ease: "power4.in"} })
+
+        //     cardHoverTL
+        //         .to(cardImage, {
+        //             clipPath: "polygon(0% 15%, 100% 0%, 100% 85%, 0% 100%)"
+        //         })
+
+        //     cardHoverTL.pause()  
+            
+        //     cardImage.addEventListener('mouseenter', () => {
+        //         cardHoverTL.play()
+        //     })
+
+        //     cardImage.addEventListener('mouseleave', () => {
+        //         cardHoverTL.reverse()
+        //     })    
+        // })
+
+
+
+
+        // SOLUTION 2
+        const gallery = gsap.utils.toArray('img')
+
+        gsap.set('img', {
+            clipPath: "polygon(0% 100%, 100% 100%, 100% 100%, 0% 100%)"
+        })
+        gsap.set('.border', {
+            scaleX: 0
+        })
+        gsap.set(['span', 'p'], {
+            yPercent: 100
+        })
+
+        const tl = gsap.timeline({
             scrollTrigger: {
                 trigger: '.gallery',
-                start: 'top center',
-                end: 'bottom center',
-                toggleActions: 'play reverse restart reverse'
+                start: 'top 20%',
+                end: 'bottom top',
+                toggleActions: 'play none play reverse'
             },
             defaults: {
-                duration: 1,
-                ease: "power4.in"
+                ease: "power4.inOut"
             }
         })
 
-        cardTL
-            .from(cardImages, {
-                yPercent: -30,
-                clipPath: "polygon(0% 100%, 100% 83%, 100% 100%, 0% 100%)",
-                ease:  "expo.in",
-                stagger: 0.2
+        tl
+            .from('li', {
+                y: -100,
+                stagger: .1
             })
-            .from(border, {
-                width: 0
-            })
-            .from(cardNumber, {
-                yPercent: 50,
-                opacity: 0
+            .to('img', {
+                clipPath: "polygon(0% 95%, 100% 49%, 100% 100%, 0% 100%)"
+            }, "<")
+            // defining images' second state on reveal
+            .to('img', {
+                clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)"
             }, "-=.5")
-            .from(cardTitle, {
-                yPercent: 50,
-                opacity: 0
-            }, "-=.5")
+            .to('.border', {
+                scaleX: 1
+            }, "-=.1")
+            .to(['span', 'p'], {
+                yPercent: 0,
+                stagger: .1
+            }, "-=.1")
 
-
-        // HOVER TL    
-         cardImages.forEach(cardImage => {
-            // Create a new timeline for each card image
-            let cardHoverTL = gsap.timeline({ defaults: {duration: 0.7, ease: "power4.in"} })
-
-            cardHoverTL
-                .to(cardImage, {
-                    clipPath: "polygon(0% 15%, 100% 0%, 100% 85%, 0% 100%)"
-                })
-
-            cardHoverTL.pause()  
-            
-            cardImage.addEventListener('mouseenter', () => {
-                cardHoverTL.play()
-            })
-
-            cardImage.addEventListener('mouseleave', () => {
-                cardHoverTL.reverse()
-            })    
-        })
 
 
 
@@ -147,10 +197,7 @@
 
         requestAnimationFrame(raf)
 
-
-
-
-                
+        // change title type on hover   
         function randomType(element, characters, duration, sequential = false) {
             let originalText = element.innerText;
             let textArray = originalText.split('');
@@ -188,11 +235,38 @@
 
         // randomType(domElement, '01', 500, true);
 
-        cardTitle.forEach(title => {
-            title.addEventListener('mouseenter', () => {
-                randomType(title, 'H48Po5m09ueJI86Rdp5Rd36', 500, true);
+        // cardTitle.forEach(title => {
+        //     title.addEventListener('mouseenter', () => {
+        //         randomType(title, 'H48Po5m09ueJI86Rdp5Rd36', 500, true);
+        //     })
+        // });
+
+
+        gallery.forEach(img => {
+
+            let p = img.closest('a').querySelector('p')
+            let originalText = p.innerText
+
+            img.addEventListener('mouseenter', () => {
+                gsap.to(img, {
+                    clipPath: "polygon(0% 15%, 100% 0%, 100% 85%, 0% 100%)"
+                })
+                
+                // function call type change on hover
+                randomType(p, 'H48Po5m09ueJI86Rdp5Rd36', 500, true);
             })
-        });
+
+            img.addEventListener('mouseleave', () => {
+                gsap.to(img, {
+                    clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)"
+                })
+
+                // function un-call to original text on mouse leave
+                p.innerText = originalText
+            })
+
+
+        })
 
         
 
