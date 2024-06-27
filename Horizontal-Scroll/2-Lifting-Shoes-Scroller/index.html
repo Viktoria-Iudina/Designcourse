@@ -85,64 +85,54 @@
       const slider = document.querySelector('.slider')
       const sections = gsap.utils.toArray('.slider section')
 
-      let scrollTween = gsap.to(sections, {
-        xPercent: -100 * (sections.length - 1),
-        ease: 'none',
+      let tl = gsap.timeline({
+        defaults: {
+          ease: 'none',
+        },
         scrollTrigger: {
           trigger: slider,
           pin: true,
           scrub: 1,
-          snap: 1 / (sections.length - 1), // increment to the closest section
           end: () => "+=" + slider.offsetWidth
         }
       })
 
-      // function for common trigger for p and h1, for then passing it as a scrollTrigger parameter
-      const commonScrollTrigger = (triggerElement) => ({
-        containerAnimation: scrollTween,
-          trigger: triggerElement,
-          start: 'left center',
-          toggleActions: 'play none none reverse'
-      })
-
-      sections.forEach(section => {
-
-        gsap.from(section.querySelector('h1'), {
-          yPercent: 145,
-          scrollTrigger: commonScrollTrigger(section.querySelector('h1'))
-        })
-
-        gsap.from(section.querySelector('p'), {
-          yPercent: 145,
-          opacity: 0,
-          scrollTrigger: commonScrollTrigger(section.querySelector('p'))
-        }, "<")
-
-        gsap.from(section.querySelector('img'), {
-          y: 50,
-          opacity: 0,
-          scrollTrigger: commonScrollTrigger(section)
-        }, ">")
-
-        gsap.to('body', {
-          scrollTrigger: commonScrollTrigger(section),
-          backgroundColor: section.dataset.bgColor
-        })
-
-        gsap.from(section.querySelector('.right-col'), {
-          scaleY: 0,
-          transformOrigin: 'bottom',
-          scrollTrigger: commonScrollTrigger(section)
-        })
-
-      })
-
-      // progress bar
-      gsap.to('.inner', {
-        scaleX: 1,
-        scrollTrigger: {
-          scrub: 0.333
-        }
+      sections.forEach((stop, index) => {
+        tl
+          // part that handles horizontal scrolling:
+          .to(sections, {
+            xPercent: -(100 * index),
+            duration: index,
+            // adding a scrollTrigger particularly for the scroll animation:
+            scrollTrigger: {
+              snap: 1 / (sections.length - 1)
+            }
+          }, "<")
+          .to('.inner', {
+            scaleX: 1,
+            scrollTrigger: {
+              scrub: 0.3333
+            }
+          })
+          .from(stop.querySelector("h1"), {
+            yPercent: 145,
+            ease: 'power4.inOut'
+          })
+          .from(stop.querySelector("p"), {
+            yPercent: 50,
+            opacity: 0,
+          })
+          .from(stop.querySelector("img"), {
+            y: 50,
+            opacity: 0,
+          })
+          .to('body', {
+            backgroundColor: stop.dataset.bgColor
+          })
+          .from(stop.querySelector('.right-col'), {
+            scaleY: 0,
+            transformOrigin: 'bottom'
+          })
       })
 
 
