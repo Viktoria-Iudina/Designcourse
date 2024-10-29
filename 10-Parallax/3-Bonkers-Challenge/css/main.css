@@ -1,0 +1,89 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Bayon", sans-serif;
+  display: block;
+  margin: 0 auto;
+}
+
+section.black {
+  height: 100vh;
+}
+
+.black {
+  background-color: #11161F;
+}
+
+section.parent {
+  margin: 0 auto;
+  width: 75%;
+}
+
+.card {
+  border: 4px solid #11161F;
+  border-radius: 9px;
+  box-shadow: 5px 5px 0px 0px rgba(0,0,0,1);
+  -webkit-box-shadow: 5px 5px 0px 0px rgba(0,0,0,1);
+  -moz-box-shadow: 5px 5px 0px 0px rgba(0,0,0,1);
+  color: #11161F;
+  text-transform: uppercase;
+  padding: 1rem;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.cta {
+  background-color: #11161F;
+  border-radius: 6px;
+  color: #fff;
+  font-size: 2rem;
+  padding: 1rem;
+  text-transform: uppercase;
+  text-decoration: none;
+  width: fit-content;
+}
+
+.parent {
+  padding: 12rem 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  grid-column-gap: 1.5rem;
+  grid-row-gap: 1.5rem;
+}
+
+.h1 {
+  font-size: 4rem;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.h3 {
+  font-size: 2.5rem;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.card-text {
+  font-weight: bolder;
+  max-width: 50%;
+}
+  
+.sidecard { 
+  background-color: #FEFF00;
+  grid-area: 1 / 1 / 3 / 2;
+  height: 75vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.topcard { 
+  grid-area: 1 / 2 / 2 / 3;
+  background-color: #0194FF;
+}
+.bottomcard { 
+  grid-area: 2 / 2 / 3 / 3; 
+  background-color: #01FF75;
+}
