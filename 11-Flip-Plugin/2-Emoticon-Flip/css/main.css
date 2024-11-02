@@ -1,0 +1,65 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #5a4cd6;
+  height: 100vh;
+  margin: 0;
+}
+
+main {
+  height: 100vh;
+  display: flex;
+  flex: 1;
+  cursor: pointer;
+}
+
+main .left,
+main .right {
+  display: grid;
+  place-content: center;
+  width: 50%;
+  height: 100vh;
+}
+
+main .left {
+  background-color: #131313;
+}
+
+.emoticon {
+  background: #5a4cd6;
+  border-radius: 50%;
+  display: grid;
+  place-content: center;
+  height: 300px;
+  width: 300px;
+}
+.emoticon .eyes {
+  display: flex;
+  gap: 4em;
+  margin-top: 30px;
+}
+.emoticon .eyes .eye {
+  background-color: #131313;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
+
+.emoticon .mouth {
+  stroke: #131313;
+  margin: 2em 0 0 0.8em;
+}
+
+main .right .emoticon {
+  background-color: #131313;
+  border-radius: 1em;
+}
+main .right .emoticon .eye {
+  background-color: #5a4cd6;
+}
+main .right .emoticon .mouth {
+  stroke: #5a4cd6;
+  transform: rotate(180deg);
+}
