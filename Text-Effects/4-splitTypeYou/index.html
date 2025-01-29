@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/style.css">
+  <title>Split Type</title>
+</head>
+<body>
+  <section>
+    <h1>Lorem ipsum dolor sit amet consectetur adipiscing.</h1>
+  </section>
+
+  <section>
+    <p class="reveal-type">Elit pretium, sagittis cum nostra nibh congue phasellus dictumst, eget morbi augue et turpis iaculis lacus. Etiam tortor.</p>
+  </section>
+
+  <section>
+    <p class="reveal-type">Elit pretium, sagittis cum nostra nibh congue phasellus dictumst, eget morbi augue et turpis iaculis lacus. Etiam tortor.</p>
+  </section>
+
+  <section>
+    <p class="reveal-type">Elit pretium, sagittis cum nostra nibh congue phasellus dictumst, eget morbi augue et turpis iaculis lacus. Etiam tortor.</p>
+  </section>
+
+  <section>
+    <p class="reveal-type">Elit pretium, sagittis cum nostra nibh congue phasellus dictumst, eget morbi augue et turpis iaculis lacus. Etiam tortor.</p>
+  </section>
+
+  <section></section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" integrity="sha512-16esztaSRplJROstbIIdwX3N97V1+pZvV33ABoG1H2OyTttBxEGkTsoIVsiP1iaTtM8b3+hu2kB6pQ4Clr5yug==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" integrity="sha512-Ic9xkERjyZ1xgJ5svx3y0u3xrvfT/uPkV99LBwe68xjy/mGtO+4eURHZBW2xW4SZbFrF1Tf090XqB+EVgXnVjw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js"></script>
+  <script src="https://unpkg.com/split-type"></script>
+
+  <script>
+
+    gsap.registerPlugin(ScrollTrigger)
+
+    const splitTypes = document.querySelectorAll('.reveal-type')
+
+    splitTypes.forEach((char, i) => {
+      const text = new SplitType(char, {types: 'chars'})
+      // console.log(text)
+
+      gsap.from(text.chars, {
+        scrollTrigger: {
+          trigger: char,
+          start: 'top 75%',
+          end: 'top 20%',
+          scrub: true
+        },
+        opacity: 0.2,
+        stagger: 0.1,
+        duration: 2
+      })
+    })
+
+
+
+    // smooth scroll
+    const lenis = new Lenis()
+
+    function raf(time) {
+    lenis.raf(time)
+    requestAnimationFrame(raf)
+    }
+
+    requestAnimationFrame(raf)
+  </script>
+
+</body>
+</html>
