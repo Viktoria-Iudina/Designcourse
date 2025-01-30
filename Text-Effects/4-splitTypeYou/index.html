@@ -12,19 +12,19 @@
   </section>
 
   <section>
-    <p class="reveal-type">Elit pretium, sagittis cum nostra nibh congue phasellus dictumst, eget morbi augue et turpis iaculis lacus. Etiam tortor.</p>
+    <p class="reveal-type" data-bg-color="grey" data-fg-color="teal">Elit pretium, sagittis cum nostra nibh congue phasellus dictumst, eget morbi augue et turpis iaculis lacus. Etiam tortor.</p>
   </section>
 
   <section>
-    <p class="reveal-type">Elit pretium, sagittis cum nostra nibh congue phasellus dictumst, eget morbi augue et turpis iaculis lacus. Etiam tortor.</p>
+    <p class="reveal-type" data-bg-color="grey" data-fg-color="black">Elit pretium, sagittis cum nostra nibh congue phasellus dictumst, eget morbi augue et turpis iaculis lacus. Etiam tortor.</p>
   </section>
 
   <section>
-    <p class="reveal-type">Elit pretium, sagittis cum nostra nibh congue phasellus dictumst, eget morbi augue et turpis iaculis lacus. Etiam tortor.</p>
+    <p class="reveal-type" data-bg-color="#353535" data-fg-color="red">Elit pretium, sagittis cum nostra nibh congue phasellus dictumst, eget morbi augue et turpis iaculis lacus. Etiam tortor.</p>
   </section>
 
   <section>
-    <p class="reveal-type">Elit pretium, sagittis cum nostra nibh congue phasellus dictumst, eget morbi augue et turpis iaculis lacus. Etiam tortor.</p>
+    <p class="reveal-type" data-bg-color="#353535" data-fg-color="green">Elit pretium, sagittis cum nostra nibh congue phasellus dictumst, eget morbi augue et turpis iaculis lacus. Etiam tortor.</p>
   </section>
 
   <section></section>
@@ -37,26 +37,34 @@
   <script>
 
     gsap.registerPlugin(ScrollTrigger)
-
     const splitTypes = document.querySelectorAll('.reveal-type')
 
     splitTypes.forEach((char, i) => {
+
+      const bg = char.dataset.bgColor
+      const fg = char.dataset.fgColor
+
       const text = new SplitType(char, {types: 'chars'})
       // console.log(text)
 
-      gsap.from(text.chars, {
-        scrollTrigger: {
-          trigger: char,
-          start: 'top 75%',
-          end: 'top 20%',
-          scrub: true
+      gsap.fromTo(text.chars, 
+        {
+          color: bg, // starts from
         },
-        opacity: 0.2,
-        stagger: 0.1,
-        duration: 2
-      })
+        {
+          color: fg, // to
+          duration: 0.3,
+          stagger: 0.02,
+          scrollTrigger: {
+            trigger: char,
+            start: 'top 80%',
+            end: 'top 20%',
+            scrub: true,
+            toggleActions: 'play play reverse reverse'
+          }
+        }
+      )
     })
-
 
 
     // smooth scroll
